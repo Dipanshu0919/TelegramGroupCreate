@@ -1,11 +1,13 @@
 import asyncio, os
-import random
+import random, time
 from datetime import datetime
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 from telethon.tl.functions.channels import CreateChannelRequest, InviteToChannelRequest
 from telethon.tl.types import InputPeerUser
 
+
+time.sleep(30*60)
 # ========= CONFIGURATION =========
 api_id = int(os.environ.get("API_ID")  # ← Replace with your API ID
 api_hash = os.environ.get("API_HASH")  # ← Replace with your API hash
