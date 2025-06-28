@@ -9,7 +9,7 @@ from telethon.tl.types import InputPeerUser
 
 time.sleep(30*60)
 # ========= CONFIGURATION =========
-api_id = int(os.environ.get("API_ID")  # ← Replace with your API ID
+api_id = int(os.environ.get("API_ID"))  # ← Replace with your API ID
 api_hash = os.environ.get("API_HASH")  # ← Replace with your API hash
 string_session = os.environ.get("STRING_SESSION")
 second_user_username = 'kisdona'
