@@ -13,7 +13,7 @@ api_id = int(os.environ.get("API_ID"))  # ← Replace with your API ID
 api_hash = os.environ.get("API_HASH")  # ← Replace with your API hash
 string_session = os.environ.get("STRING_SESSION")
 second_user_username = 'kisdona'
-image_path = "Screenshot.png"
+image_path = "screenshot.png"
 image_caption = 'Welcome to the group! 🎉'
 random_messages = ["Hi", "Hello", "Yo", "What's up?", "How's it going?"]
 
