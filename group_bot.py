@@ -1,13 +1,11 @@
 import asyncio, os
-import random, time
+import random
 from datetime import datetime
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 from telethon.tl.functions.channels import CreateChannelRequest, InviteToChannelRequest
 from telethon.tl.types import InputPeerUser
 
-
-time.sleep(30*60)
 # ========= CONFIGURATION =========
 api_id = int(os.environ.get("API_ID"))  # ← Replace with your API ID
 api_hash = os.environ.get("API_HASH")  # ← Replace with your API hash
@@ -20,9 +18,9 @@ random_messages = ["Hi", "Hello", "Yo", "What's up?", "How's it going?"]
 client = TelegramClient(StringSession(string_session), api_id, api_hash)
 today = datetime.now().strftime('%Y-%m-%d')
 
-async def create_group(index):
+async def create_group():
     try:
-        title = f"{today} #{index}"
+        title = f"{today}"
         print(f"\n==> Creating supergroup: {title}")
 
         # Create supergroup
@@ -52,13 +50,11 @@ async def create_group(index):
         print("    → Sent 5 text messages")
 
     except Exception as e:
-        print(f"[!] Error in group #{index}: {e}")
+        print(f"[!] Error in group: {e}")
 
 async def main():
     await client.start()
-    for i in range(1, 51):
-        await create_group(i)
-        await asyncio.sleep(10)
+    await create_group()
 
 with client:
     client.loop.run_until_complete(main())
