@@ -1,9 +1,7 @@
 name: Run Telegram Bot Every 24h30m
 
 on:
-  schedule:
-    - cron: '00 11 * * *'  # Run at minute 30 every 24 hours
-  workflow_dispatch:        # Allow manual run
+  workflow_dispatch:
 
 jobs:
   run-bot:
