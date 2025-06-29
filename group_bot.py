@@ -54,7 +54,8 @@ async def create_group():
 
 async def main():
     await client.start()
-    await create_group()
+    for x in range(2):
+        await create_group()
 
 with client:
     client.loop.run_until_complete(main())
