@@ -30,27 +30,42 @@ async def create_group(client):
         group = result.chats[0]
         print(f"[+] Created supergroup (ID: {group.id})")
 
-        user = await client.get_entity(second_user_username)
-        await client(InviteToChannelRequest(channel=group, users=[user]))
-        print("    → Invited second user")
+        try:
+            user = await client.get_entity(second_user_username)
+            await client(InviteToChannelRequest(channel=group, users=[user]))
+            print("    → Invited second user")
+        except Exception as e:
+            print(f"[!] Error inviting user: {e}")
 
         for _ in range(5):
-            await client.send_file(group, image_path, caption=image_caption)
-            await asyncio.sleep(1)
+            try:
+                await client.send_file(group, image_path, caption=image_caption)
+                await asyncio.sleep(1)
+            except Exception as e:
+                print(f"[!] Error sending image: {e}")
         print("    → Sent 5 images")
 
         for _ in range(5):
-            await client.send_message(group, random.choice(random_messages))
-            await asyncio.sleep(1)
+            try:
+                await client.send_message(group, random.choice(random_messages))
+                await asyncio.sleep(1)
+            except Exception as e:
+                print(f"[!] Error sending message: {e}")
         print("    → Sent 5 text messages")
 
     except Exception as e:
-        print(f"[!] Error in group: {e}")
+        print(f"[!] Error in group creation: {e}")
 
 async def main():
     for x, y, z in zip(api_id_list, api_hash_list, string_session_list):
-        async with TelegramClient(StringSession(z), x, y) as client:
-            for _ in range(2):  # Create 2 groups per account
-                await create_group(client)
+        try:
+            async with TelegramClient(StringSession(z), x, y) as client:
+                for _ in range(2):  # Create 2 groups per account
+                    try:
+                        await create_group(client)
+                    except Exception as e:
+                        print(f"[!] Error while creating group: {e}")
+        except Exception as e:
+            print(f"[!] Client session error: {e}")
 
 asyncio.run(main())
