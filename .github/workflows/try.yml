@@ -1,4 +1,0 @@
-- name: Debug Environment Variables
-  run: |
-    echo "Available environment variables:"
-    env | grep API_
