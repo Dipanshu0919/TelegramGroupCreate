@@ -7,9 +7,9 @@ from telethon.sessions import StringSession
 from telethon.tl.functions.channels import CreateChannelRequest, InviteToChannelRequest
 
 # ========= CONFIGURATION =========
-api_id_list = list(map(int, os.environ.get("API_ID").split(",")))
-api_hash_list = os.environ.get("API_HASH").split(",")
-string_session_list = os.environ.get("STRING_SESSION").split(",")
+api_id_list = list(map(int, os.environ.get("API_IDS").split(",")))
+api_hash_list = os.environ.get("API_HASHS").split(",")
+string_session_list = os.environ.get("STRING_SESSIONS").split(",")
 
 second_user_username = 'missrose_bot'
 image_path = "screenshot.png"
