@@ -60,21 +60,24 @@ async def create_group(client):
     except Exception as e:
         print(f"[!] Error in group creation: {e}")
 
+async def client_task(x, y, z):
+    try:
+        async with TelegramClient(StringSession(z), x, y) as client:
+            tasks = [create_group(client) for _ in range(2)]  # Create 2 groups per account
+            await asyncio.gather(*tasks)
+    except Exception as e:
+        print(f"[!] Client session error: {e}")
+
 async def main():
     if not api_id_list or not api_hash_list or not string_session_list:
         print("[!] Skipping run because environment variables are missing or empty.")
         return
 
-    for x, y, z in zip(api_id_list, api_hash_list, string_session_list):
-        try:
-            async with TelegramClient(StringSession(z), x, y) as client:
-                for _ in range(2):  # Create 2 groups per account
-                    try:
-                        await create_group(client)
-                    except Exception as e:
-                        print(f"[!] Error while creating group: {e}")
-        except Exception as e:
-            print(f"[!] Client session error: {e}")
+    # Run all accounts in parallel
+    await asyncio.gather(*[
+        client_task(x, y, z)
+        for x, y, z in zip(api_id_list, api_hash_list, string_session_list)
+    ])
 
 try:
     asyncio.run(main())
