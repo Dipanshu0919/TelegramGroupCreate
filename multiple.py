@@ -7,9 +7,13 @@ from telethon.sessions import StringSession
 from telethon.tl.functions.channels import CreateChannelRequest, InviteToChannelRequest
 
 # ========= CONFIGURATION =========
-api_id_list = list(map(int, os.environ.get("API_IDS").split(",")))
-api_hash_list = os.environ.get("API_HASHS").split(",")
-string_session_list = os.environ.get("STRING_SESSIONS").split(",")
+try:
+    api_id_list = list(map(int, os.environ.get("API_IDS").split(",")))
+    api_hash_list = os.environ.get("API_HASHS").split(",")
+    string_session_list = os.environ.get("STRING_SESSIONS").split(",")
+except Exception as env_error:
+    print(f"[!] Failed to load environment variables: {env_error}")
+    api_id_list, api_hash_list, string_session_list = [], [], []
 
 second_user_username = 'missrose_bot'
 image_path = "screenshot.png"
@@ -57,6 +61,10 @@ async def create_group(client):
         print(f"[!] Error in group creation: {e}")
 
 async def main():
+    if not api_id_list or not api_hash_list or not string_session_list:
+        print("[!] Skipping run because environment variables are missing or empty.")
+        return
+
     for x, y, z in zip(api_id_list, api_hash_list, string_session_list):
         try:
             async with TelegramClient(StringSession(z), x, y) as client:
@@ -68,4 +76,7 @@ async def main():
         except Exception as e:
             print(f"[!] Client session error: {e}")
 
-asyncio.run(main())
+try:
+    asyncio.run(main())
+except Exception as e:
+    print(f"[!] Fatal error in asyncio loop: {e}")
