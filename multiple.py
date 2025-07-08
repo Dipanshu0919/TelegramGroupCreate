@@ -21,9 +21,10 @@ image_caption = 'Welcome to the group! 🎉'
 random_messages = ["Hi", "Hello", "Yo", "What's up?", "How's it going?"]
 today = datetime.now().strftime('%Y-%m-%d')
 
-async def create_group(client):
+
+async def create_group(client, group_num):
     try:
-        title = f"{today}"
+        title = f"{today} Group {group_num}"
         print(f"\n==> Creating supergroup: {title}")
 
         result = await client(CreateChannelRequest(
@@ -60,24 +61,29 @@ async def create_group(client):
     except Exception as e:
         print(f"[!] Error in group creation: {e}")
 
-async def client_task(x, y, z):
+
+async def run_for_account(api_id, api_hash, string_session, index):
     try:
-        async with TelegramClient(StringSession(z), x, y) as client:
-            tasks = [create_group(client) for _ in range(2)]  # Create 2 groups per account
-            await asyncio.gather(*tasks)
+        async with TelegramClient(StringSession(string_session), api_id, api_hash) as client:
+            print(f"\n[Account {index+1}] Logged in")
+            for i in range(2):  # Create 2 groups per account
+                await create_group(client, i + 1)
+                await asyncio.sleep(2)  # Delay between groups to avoid rate limiting
     except Exception as e:
-        print(f"[!] Client session error: {e}")
+        print(f"[!] Client session error (account {index+1}): {e}")
+
 
 async def main():
     if not api_id_list or not api_hash_list or not string_session_list:
         print("[!] Skipping run because environment variables are missing or empty.")
         return
 
-    # Run all accounts in parallel
-    await asyncio.gather(*[
-        client_task(x, y, z)
-        for x, y, z in zip(api_id_list, api_hash_list, string_session_list)
-    ])
+    tasks = []
+    for i, (api_id, api_hash, session) in enumerate(zip(api_id_list, api_hash_list, string_session_list)):
+        tasks.append(run_for_account(api_id, api_hash, session, i))
+
+    await asyncio.gather(*tasks)
+
 
 try:
     asyncio.run(main())
