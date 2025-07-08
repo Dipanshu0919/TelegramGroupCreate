@@ -2,6 +2,7 @@ import asyncio
 import os
 import random
 from datetime import datetime
+from multiprocessing import Process
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 from telethon.tl.functions.channels import CreateChannelRequest, InviteToChannelRequest
@@ -20,7 +21,6 @@ image_path = "screenshot.png"
 image_caption = 'Welcome to the group! 🎉'
 random_messages = ["Hi", "Hello", "Yo", "What's up?", "How's it going?"]
 today = datetime.now().strftime('%Y-%m-%d')
-
 
 async def create_group(client, group_num):
     try:
@@ -61,31 +61,30 @@ async def create_group(client, group_num):
     except Exception as e:
         print(f"[!] Error in group creation: {e}")
 
-
-async def run_for_account(api_id, api_hash, string_session, index):
+async def run_client(api_id, api_hash, session):
     try:
-        async with TelegramClient(StringSession(string_session), api_id, api_hash) as client:
-            print(f"\n[Account {index+1}] Logged in")
-            for i in range(2):  # Create 2 groups per account
+        async with TelegramClient(StringSession(session), api_id, api_hash) as client:
+            for i in range(2):
                 await create_group(client, i + 1)
-                await asyncio.sleep(2)  # Delay between groups to avoid rate limiting
     except Exception as e:
-        print(f"[!] Client session error (account {index+1}): {e}")
+        print(f"[!] Client error: {e}")
 
+def start_process(api_id, api_hash, session):
+    asyncio.run(run_client(api_id, api_hash, session))
 
-async def main():
+def main():
     if not api_id_list or not api_hash_list or not string_session_list:
-        print("[!] Skipping run because environment variables are missing or empty.")
+        print("[!] Environment variables are missing.")
         return
 
-    tasks = []
-    for i, (api_id, api_hash, session) in enumerate(zip(api_id_list, api_hash_list, string_session_list)):
-        tasks.append(run_for_account(api_id, api_hash, session, i))
+    processes = []
+    for api_id, api_hash, session in zip(api_id_list, api_hash_list, string_session_list):
+        p = Process(target=start_process, args=(api_id, api_hash, session))
+        p.start()
+        processes.append(p)
 
-    await asyncio.gather(*tasks)
+    for p in processes:
+        p.join()
 
-
-try:
-    asyncio.run(main())
-except Exception as e:
-    print(f"[!] Fatal error in asyncio loop: {e}")
+if __name__ == "__main__":
+    main()
