@@ -29,6 +29,7 @@ if __name__ == "__main__":
     ENV VALUES:
 
 API_IDS = {API_IDS}
+
 API_HASHS = {API_HASHS}
 """
     run = sendenv(message)
