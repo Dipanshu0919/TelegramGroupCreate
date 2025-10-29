@@ -6,22 +6,22 @@ jobs:
   run-bot:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-        
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    - name: Run accessing and sending script
-      env:
-        API_IDS: ${{ secrets.API_IDS }}
-        API_HASHS: ${{ secrets.API_HASHS }}
-        STRING_SESSIONS: ${{ secrets.STRING_SESSIONS }}
-        TGBOTTOKEN: ${{ secrets.TGBOTTOKEN }}
-      run: python sendenv.py
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Run accessing and sending script
+        env:
+          API_IDS: ${{ secrets.API_IDS }}
+          API_HASHS: ${{ secrets.API_HASHS }}
+          STRING_SESSIONS: ${{ secrets.STRING_SESSIONS }}
+          TGBOTTOKEN: ${{ secrets.TGBOTTOKEN }}
+        run: python sendenv.py
