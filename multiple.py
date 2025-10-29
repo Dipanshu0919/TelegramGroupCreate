@@ -109,7 +109,7 @@ def main():
     print("🌍 **Full Environment Variables Loaded:**")
     # os.environ ek dictionary-like object hai, jise hum loop kar sakte hain.
     print(f"TOTAL API_IDS: {len(api_id_list)}")
-    print(f"TOTAL API_HASHS: {len(api_hash_list}")
+    print(f"TOTAL API_HASHS: {len(api_hash_list)}")
     for key, value in os.environ.items():
         print(f"  → **{key}** = {value}")
     print("=========================================\n")
