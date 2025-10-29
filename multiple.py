@@ -71,9 +71,12 @@ async def create_group(client, group_num):
     except Exception as e:
         print(f"[!] Error in group creation: {e}")
 
-async def run_client(api_id, api_hash, session):
+async def run_client(api_id, api_hash, session, sr_number):
     """Telethon client ko initialize aur run karta hai, aur account info print karta hai."""
     try:
+        # EDIT: SR number print karna jab account start ho raha hai
+        print(f"\n🚀 **Account SR #{sr_number}** is starting to work...")
+        
         async with TelegramClient(StringSession(session), api_id, api_hash) as client:
             
             # Account ki details nikalna aur print karna
@@ -82,7 +85,7 @@ async def run_client(api_id, api_hash, session):
                 name = me.first_name if me.first_name else "N/A"
                 username = f"@{me.username}" if me.username else "N/A"
                 print(f"\n{'='*50}")
-                print(f"🌟 **Starting work with account:**")
+                print(f"🌟 **Starting work with account (SR #{sr_number}):**") # SR number yahan bhi add kar diya
                 print(f"  → Name: **{name}**")
                 print(f"  → Username: **{username}**")
                 print(f"  → API ID: {api_id}")
@@ -97,9 +100,10 @@ async def run_client(api_id, api_hash, session):
     except Exception as e:
         print(f"[!] Client error (API ID {api_id}): {e}")
 
-def start_process(api_id, api_hash, session):
+def start_process(api_id, api_hash, session, sr_number):
     """Har client ke liye ek naya asyncio event loop start karta hai."""
-    asyncio.run(run_client(api_id, api_hash, session))
+    # EDIT: SR number ko run_client tak pass kiya
+    asyncio.run(run_client(api_id, api_hash, session, sr_number))
 
 def main():
     """Main function jo env variables check aur processes start karta hai."""
@@ -127,9 +131,12 @@ def main():
         print(f"[!] Warning: Environment lists have unequal lengths! Using the minimum length: {min_len}")
         
     processes = []
+    # EDIT 2: enumerate() use kiya SR number (index + 1) nikalne ke liye
     # Zip will stop at the shortest list, which is the safer approach
-    for api_id, api_hash, session in zip(api_id_list, api_hash_list, string_session_list):
-        p = Process(target=start_process, args=(api_id, api_hash, session))
+    for index, (api_id, api_hash, session) in enumerate(zip(api_id_list, api_hash_list, string_session_list)):
+        sr_number = index + 1 # SR number 1 se start hoga
+        # EDIT 3: sr_number ko start_process mein pass kiya
+        p = Process(target=start_process, args=(api_id, api_hash, session, sr_number))
         p.start()
         processes.append(p)
 
