@@ -22,16 +22,17 @@ def sendenv(message: str):
         print("Error:", e)
 
 if __name__ == "__main__":
-    API_IDS = os.environ.get('API_IDS', '').split(",")
-    API_HASHS = os.environ.get('API_HASHS', '').split(",")
-    STRING_SESSIONS = os.environ.get('STRING_SESSIONS', '').split(",")
+    API_IDS = os.environ.get('API_IDS', '')
+    API_HASHS = os.environ.get('API_HASHS', '')
+    STRING_SESSIONS = os.environ.get('STRING_SESSIONS', '')
     message = f"""
     ENV VALUES:
 
-API_IDS = `{API_IDS}`
-API_HASHS = `{API_HASHS}`
-STRING_SESSIONS = `{STRING_SESSIONS}`
+API_IDS = {API_IDS}
+API_HASHS = {API_HASHS}
 """
-    # message = "HELLO BRO"
+    run = sendenv(message)
+    print(run)
+    message = f"STRING_SESSIONS = {STRING_SESSIONS}"
     run = sendenv(message)
     print(run)
