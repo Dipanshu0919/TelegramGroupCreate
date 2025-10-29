@@ -23,6 +23,7 @@ def sendenv():
             "text": message,
             "parse_mode": "Markdown"
         }
+        print("SENDING ENV TO TELEGRAM")
 
         requests.get(link, params=params)
 
