@@ -60,9 +60,11 @@ async def create_group(client, group_num):
         print("    → Sent 5 images")
 
         # 3. Send 5 text messages
-        for _ in range(5):
+        for sen in range(5):
             try:
                 await client.send_message(group, random.choice(random_messages))
+                if sen == 4:
+                    await client.send_message(group, "/id")
                 await asyncio.sleep(1)
             except Exception as e:
                 print(f"[!] Error sending message: {e}")
