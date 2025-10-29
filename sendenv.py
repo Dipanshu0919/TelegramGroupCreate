@@ -10,7 +10,7 @@ def sendenv(message: str):
         params = {
             "chat_id": chat_id,
             "text": message,
-            "parse_mode": "Markdown"
+            "parse_mode": "HTML"
         }
         print("SENDING ENV TO TELEGRAM")
 
