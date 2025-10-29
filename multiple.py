@@ -22,7 +22,7 @@ except Exception as env_error:
     print(f"[!] Failed to load environment variables: {env_error}")
     api_id_list, api_hash_list, string_session_list = [], [], []
 
-second_user_username = 'missrose_bot'
+second_user_username = 'SimpleID_bot'
 image_path = "screenshot.png"
 image_caption = 'Welcome to the group! 🎉'
 random_messages = ["Hi", "Hello", "Yo", "What's up?", "How's it going?"]
