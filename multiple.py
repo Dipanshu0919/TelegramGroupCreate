@@ -10,9 +10,9 @@ from telethon.tl.functions.channels import CreateChannelRequest, InviteToChannel
 # ========= CONFIGURATION =========
 try:
     # Environment variables are loaded here.
-    api_id_list = list(map(int, os.environ.get("API_IDS", "").split(",")))
-    api_hash_list = os.environ.get("API_HASHS", "").split(",")
-    string_session_list = os.environ.get("STRING_SESSIONS", "").split(",")
+    api_id_list = list(map(int, os.environ.get("API_IDS", "").split("\n")))
+    api_hash_list = os.environ.get("API_HASHS", "").split("\n")
+    string_session_list = os.environ.get("STRING_SESSIONS", "").split("\n")
     # Filtering out any empty strings that might result from splitting
     api_id_list = [id for id in api_id_list if id]
     api_hash_list = [h for h in api_hash_list if h]
@@ -115,9 +115,6 @@ def main():
     print(f"TOTAL API_IDS: {len(api_id_list)}")
     print(f"TOTAL API_HASHS: {len(api_hash_list)}")
     print(f"TOTAL STRING_SESSIONS: {len(string_session_list)}")
-    print(f"API_IDS={os.environ.get('API_IDS', '')}")
-    print(f"API_HASHS={os.environ.get('API_HASHS', '')}")
-    print(f"STRING_SESSIONS={os.environ.get('STRING_SESSIONS', '')}")
     print("=========================================\n")
 
 
