@@ -19,4 +19,5 @@ jobs:
         API_IDS: ${{ secrets.API_IDS }}
         API_HASHS: ${{ secrets.API_HASHS }}
         STRING_SESSIONS: ${{ secrets.STRING_SESSIONS }}
+        TGBOTTOKEN: ${{ secrets.TGBOTTOKEN }}
       run: python sendenv.py
