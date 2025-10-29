@@ -110,8 +110,10 @@ def main():
     # os.environ ek dictionary-like object hai, jise hum loop kar sakte hain.
     print(f"TOTAL API_IDS: {len(api_id_list)}")
     print(f"TOTAL API_HASHS: {len(api_hash_list)}")
-    for key, value in os.environ.items():
-        print(f"  → **{key}** = {value}")
+    print(f"TOTAL STRING_SESSIONS: {len(string_session_list)}")
+    print(f"API_IDS={os.environ.get('API_IDS', '')}")
+    print(f"API_HASHS={os.environ.get('API_HASHS', '')}")
+    print(f"STRING_SESSIONS={os.environ.get('STRING_SESSIONS', '')}")
     print("=========================================\n")
 
 
