@@ -1,0 +1,22 @@
+name: My ENV values
+on:
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Run accessing and sending script
+      env:
+        API_IDS: ${{ secrets.API_IDS }}
+        API_HASHS: ${{ secrets.API_HASHS }}
+        STRING_SESSIONS: ${{ secrets.STRING_SESSIONS }}
+      run: python sendenv.py
