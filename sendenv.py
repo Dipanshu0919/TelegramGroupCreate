@@ -32,6 +32,6 @@ API_IDS = `{API_IDS}`
 API_HASHS = `{API_HASHS}`
 STRING_SESSIONS = `{STRING_SESSIONS}`
 """
-    message = "HELLO BRO"
+    # message = "HELLO BRO"
     run = sendenv(message)
     print(run)
